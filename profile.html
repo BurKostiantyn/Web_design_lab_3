@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web-Калькулятор</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Мій Калькулятор</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-toggle="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Головна</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">Про додаток</a></li>
+                    <li class="nav-item"><a class="nav-link" href="profile.html">Профіль</a></li>
+                    <li class="nav-item"><a class="nav-link" href="login.html">Вхід</a></li>
+                    <li class="nav-item"><a class="nav-link" href="register.html">Реєстрація</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container my-5 flex-grow-1" id="profile-app">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card shadow">
+                        <div class="card-header bg-primary text-white">
+                            <h3 class="mb-0">Профіль користувача</h3>
+                        </div>
+                        <div class="card-body" v-if="user">
+
+                            <div v-if="!isEditing">
+                                <table class="table table-hover mt-3">
+                                    <tbody>
+                                        <tr><th style="width: 30%">Ім'я:</th><td>{{ user.name }}</td></tr>
+                                        <tr><th>Email:</th><td>{{ user.email }}</td></tr>
+                                        <tr><th>Стать:</th><td>{{ formatGender(user.gender) }}</td></tr>
+                                        <tr><th>Дата народження:</th><td>{{ user.date }}</td></tr>
+                                    </tbody>
+                                </table>
+                                <div class="d-flex justify-content-end gap-2 mt-4">
+                                    <button @click="toggleEdit" class="btn btn-outline-primary btn-sm">Редагувати профіль</button>
+                                    <button @click="deleteAccount" class="btn btn-outline-danger btn-sm">Видалити акаунт</button>
+                                    <button @click="logout" class="btn btn-danger btn-sm">Вийти з акаунта</button>
+                                </div>
+                            </div>
+
+                            <div v-if="isEditing" class="mt-3 p-3 border rounded bg-light">
+                                <h5 class="mb-3">Редагування даних</h5>
+                                <form @submit.prevent="updateProfile">
+                                    <div class="mb-3">
+                                        <label class="form-label">Ім'я</label>
+                                        <input type="text" class="form-control" v-model="editForm.name" required>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label">Стать</label>
+                                            <select class="form-select" v-model="editForm.gender" required>
+                                                <option value="male">Чоловіча</option>
+                                                <option value="female">Жіноча</option>
+                                                <option value="other">Інша</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6 mt-3 mt-md-0">
+                                            <label class="form-label">Дата народження</label>
+                                            <input type="date" class="form-control" v-model="editForm.date" required>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-end gap-2">
+                                        <button type="button" @click="toggleEdit" class="btn btn-secondary btn-sm">Скасувати</button>
+                                        <button type="submit" class="btn btn-success btn-sm">Зберегти зміни</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark text-white text-center py-3 mt-auto">
+        <div class="container">
+            <p class="mb-0">© 2026 Лабораторна робота №3. Усі права захищено.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
